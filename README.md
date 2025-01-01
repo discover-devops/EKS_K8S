@@ -1,122 +1,132 @@
-# EKS_K8S
-
-### **Course Title: Mastering Kubernetes on AWS EKS – Theory and Hands-On Labs**  
-**Target Audience:** Cloud Architects, DevOps Engineers, System Administrators, Developers  
-**Level:** Intermediate to Advanced  
+### **Kubernetes 10- Course Curriculum (1 Hour Per  with Labs)**  
 
 ---
 
-## **Course Objectives:**  
-- Understand Kubernetes fundamentals and its architecture.  
-- Learn how to deploy and manage containerized applications on AWS EKS.  
-- Implement scaling, networking, and security best practices.  
-- Gain hands-on experience with EKS cluster provisioning, deployment, and troubleshooting.  
-- Master real-world use cases for enterprise applications on AWS EKS.  
+### ** 1 – Core Concepts & Architecture**  
+- **Kubernetes Overview & Architecture**  
+  - Control Plane Components: API Server, etcd, Controller Manager, Scheduler  
+  - Worker Node Components: Kubelet, Kube-Proxy, Container Runtime  
+- **Understanding Clusters, Nodes, Pods, and Namespaces**  
+- **kubectl Commands (Basics):**  
+  - Create, Get, Delete, Describe, Apply  
+
+**🔹 Lab:**  
+- Set up a Kubernetes cluster (Minikube/kind/k3s)  
+- Deploy a basic NGINX Pod using `kubectl run`  
+- Explore the cluster using `kubectl get nodes` and `kubectl get ns`  
 
 ---
 
-## **Course Outline:**  
+### ** 2 – Workloads: ReplicaSets, Deployments & StatefulSets**  
+- **ReplicaSets vs Deployments vs StatefulSets**  
+  - Pod Scaling with ReplicaSets  
+  - Rolling Updates with Deployments  
+  - StatefulSet Use Cases (Stateful Applications)  
+- **Pod Lifecycle**  
+
+**🔹 Lab:**  
+- Deploy an NGINX Deployment (3 replicas)  
+- Scale the Deployment and perform a rolling update  
 
 ---
 
-### **Session 1: Introduction to Kubernetes and AWS EKS**  
-**Theory:**  
-- Overview of Kubernetes: Why Kubernetes?  
-- Kubernetes Architecture: Nodes, Pods, Deployments, Services  
-- Introduction to AWS EKS:  
-  - What is EKS?  
-  - EKS Architecture  
-  - EKS vs Self-Managed Kubernetes  
-- Key AWS Services for Kubernetes (IAM, VPC, EC2, S3, ELB)  
+### ** 3 – Services & Networking Basics**  
+- **Kubernetes Services:**  
+  - ClusterIP, NodePort, LoadBalancer  
+- **Pod-to-Pod Communication**  
+- **Service Discovery & DNS Basics (CoreDNS)**  
 
-**Lab:**  
-- **Provisioning an EKS Cluster using AWS Console**  
-  - Creating IAM roles for EKS  
-  - Creating an EKS cluster  
-  - Verifying EKS cluster setup using kubectl  
+**🔹 Lab:**  
+- Expose the NGINX Deployment using a NodePort Service  
+- Access the NGINX service using `curl`  
 
 ---
 
-### **Session 2: Deploying Applications on EKS**  
-**Theory:**  
-- Kubernetes Objects and YAML Basics  
-- Deployments and ReplicaSets  
-- Services: ClusterIP, NodePort, LoadBalancer  
-- ConfigMaps and Secrets  
+### ** 4 – Role-Based Access Control (RBAC)**  
+- **RBAC Concepts:**  
+  - Roles, ClusterRoles, RoleBindings, ClusterRoleBindings  
+- **Service Accounts and Permissions**  
 
-**Lab:**  
-- **Deploying an NGINX Application on EKS**  
-  - Writing Deployment YAML files  
-  - Exposing application with LoadBalancer service  
-  - Verifying deployment using kubectl  
+**🔹 Lab:**  
+- Create a Role to limit Pod access  
+- Bind the Role to a specific ServiceAccount  
 
 ---
 
-### **Session 3: Scaling and Auto-Healing**  
-**Theory:**  
-- Horizontal Pod Autoscaler (HPA)  
-- Vertical Pod Autoscaler  
-- Cluster Autoscaler on AWS EKS  
-- Pod Disruption Budgets  
+### ** 5 – Cluster Networking (Advanced)**  
+- **Cluster Networking Deep Dive**  
+- **CNI (Container Network Interface) Plugins:** Calico, Flannel, Cilium  
+- **Ingress Controllers:**  
+  - NGINX Ingress, Traefik  
+- **Network Policies for Pod Isolation**  
 
-**Lab:**  
-- **Implementing Horizontal Pod Autoscaler**  
-  - Deploying a sample application  
-  - Configuring HPA  
-  - Simulating traffic and monitoring pod scaling  
+**🔹 Lab:**  
+- Install and configure an NGINX Ingress Controller  
+- Apply Network Policies to restrict Pod access  
 
 ---
 
-### **Session 4: Networking and Security**  
-**Theory:**  
-- Kubernetes Networking Model  
-- AWS VPC CNI Plugin for EKS  
-- Network Policies  
-- IAM Roles for Service Accounts (IRSA)  
-- Pod Security Policies and RBAC  
+### ** 6 – Persistent Storage**  
+- **Persistent Volumes (PVs) & Persistent Volume Claims (PVCs)**  
+- **Dynamic Provisioning with Storage Classes**  
+- **StatefulSet with Persistent Storage**  
 
-**Lab:**  
-- **Configuring IAM Roles for Pods**  
-  - Enabling IRSA on EKS  
-  - Creating service account and attaching IAM policies  
-  - Verifying pod access to AWS services (e.g., S3)  
+**🔹 Lab:**  
+- Create a Persistent Volume and Claim  
+- Deploy a MySQL StatefulSet with dynamic provisioning  
 
 ---
 
-### **Session 5: Monitoring, Logging, and Troubleshooting**  
-**Theory:**  
-- Monitoring EKS with CloudWatch  
-- Kubernetes Logging with FluentD and CloudWatch  
-- Troubleshooting Pods and Nodes  
-- Debugging Kubernetes Applications  
+### ** 7 – ConfigMaps and Secrets**  
+- **ConfigMaps:** Managing Configurations  
+- **Secrets:** Storing Sensitive Data  
+- **Using Environment Variables and Volumes**  
 
-**Lab:**  
-- **Monitoring and Troubleshooting EKS**  
-  - Integrating CloudWatch with EKS  
-  - Viewing application logs  
-  - Debugging failed pods and node issues  
+**🔹 Lab:**  
+- Create ConfigMaps and inject them into Pods  
+- Deploy a Pod that uses a Secret to access credentials  
 
 ---
 
-## **Capstone Project (Optional)**  
-- **Deploy a full-stack application with multiple services on AWS EKS**  
-- Configure Load Balancer, HPA, and IAM integration  
-- Implement best practices for security and scaling  
+### ** 8 – Scheduling, Taints & Tolerations**  
+- **Understanding Taints and Tolerations**  
+- **Node Affinity and Anti-Affinity**  
+- **Pod Priority & Preemption**  
+
+**🔹 Lab:**  
+- Use Taints to prevent Pod scheduling on specific nodes  
+- Apply Node Affinity rules to control Pod placement  
 
 ---
 
-## **Prerequisites:**  
-- Basic understanding of Kubernetes  
-- Familiarity with AWS services (EC2, VPC, IAM)  
-- Experience with Docker and containerization  
+### ** 9 – Resource Management**  
+- **Resource Requests and Limits**  
+- **Horizontal Pod Autoscaler (HPA)**  
+- **Vertical Pod Autoscaler (VPA)**  
+
+**🔹 Lab:**  
+- Set resource requests/limits on Pods  
+- Deploy HPA to automatically scale Pods based on CPU usage  
 
 ---
 
-## **Outcomes:**  
-- Deploy and manage containerized applications on EKS confidently  
-- Implement auto-scaling, networking, and security best practices  
-- Troubleshoot and monitor Kubernetes clusters effectively  
-- Build production-grade Kubernetes applications on AWS  
+### ** 10 – Real-World Deployment & Final Lab**  
+- **Deploying a Multi-Tier Application:**  
+  - Frontend: NGINX  
+  - Backend: Redis/MySQL  
+  - Ingress: NGINX Ingress Controller  
+  - PVCs for data persistence  
+- **Rolling Updates and Rollbacks**  
+- **Network Policies for Security**  
+
+**🔹 Lab:**  
+- Deploy and test a full-stack application with an Ingress Controller  
+- Perform rolling updates and verify the rollback process  
 
 ---
+
+### **Course Outcome:**  
+- Master Kubernetes core concepts, advanced networking, storage, and scheduling.  
+- Gain practical hands-on experience through structured labs.  
+- Be ready to manage, troubleshoot, and deploy Kubernetes workloads confidently.  
 
