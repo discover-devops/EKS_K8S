@@ -1,4 +1,4 @@
-### **Kubernetes 10- Course Curriculum (1 Hour Per  with Labs)**  
+### **Kubernetes Course Curriculum with Labs**  
 
 ---
 
@@ -57,7 +57,7 @@
 - **Cluster Networking Deep Dive**  
 - **CNI (Container Network Interface) Plugins:** Calico, Flannel, Cilium  
 - **Ingress Controllers:**  
-  - NGINX Ingress, Traefik  
+  - NGINX Ingress 
 - **Network Policies for Pod Isolation**  
 
 **🔹 Lab:**  
