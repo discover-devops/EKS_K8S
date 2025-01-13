@@ -77,6 +77,11 @@ The **ALB Ingress Controller** integrates Kubernetes Ingress resources with ALB,
 ---
 
 ### **How ALB Ingress Works**
+Ref: https://aws.amazon.com/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/
+
+![image](https://github.com/user-attachments/assets/e56473f7-db7f-4747-a91b-a1fa3918209d)
+
+
 
 The **ALB Ingress Controller** works as follows:
 1. **Ingress Event Detection**:
