@@ -66,4 +66,4 @@ kubectl get svc nginx-service
     kubectl describe svc nginx-service
     ```
 
-Let me know if you need help troubleshooting the connection!
+
