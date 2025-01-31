@@ -1,5 +1,10 @@
 ### **Kubernetes Overview & Architecture (Detailed Explanation with Examples)**  
 
+
+
+![image](https://github.com/user-attachments/assets/1e50f7ab-167b-4c7f-bdbf-f0c162788c69)
+
+
 ---
 
 ### **1. What is Kubernetes?**  
