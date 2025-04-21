@@ -1,4 +1,4 @@
-# Here's your **complete step-by-step guide** for setting up **Amazon EBS-backed storage on AWS EKS** using the **EBS CSI Driver**, along with **PersistentVolumeClaim (PVC), a test Pod**, and **Helm-based installation options**.
+## Here's your **complete step-by-step guide** for setting up **Amazon EBS-backed storage on AWS EKS** using the **EBS CSI Driver**, along with **PersistentVolumeClaim (PVC), a test Pod**, and **Helm-based installation options**.
 
 ---
 
