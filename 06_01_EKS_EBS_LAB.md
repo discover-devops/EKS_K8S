@@ -2,7 +2,7 @@
 
 ---
 
-# 🛠 Amazon EBS Storage with Kubernetes on EKS — Step-by-Step Guide
+#  Amazon EBS Storage with Kubernetes on EKS — Step-by-Step Guide
 
 ---
 
