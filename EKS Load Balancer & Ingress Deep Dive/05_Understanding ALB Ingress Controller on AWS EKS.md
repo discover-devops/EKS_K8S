@@ -164,3 +164,155 @@ alb.ingress.kubernetes.io/target-type: ip
 
 ---
 
+
+
+### How Traffic Flows
+
+
+step by step — from the moment a user types `https://mymovieapp.com` in the browser, all the way to your **Pod** running inside **EKS**.
+
+This explanation is tailored for a **production-grade Kubernetes setup on AWS EKS using ALB Ingress Controller**, where your application (e.g., `mymovieapp`) is exposed securely using **ALB** + **Route 53**.
+
+---
+
+##  Scenario
+
+**User types**:
+`https://mymovieapp.com`
+
+---
+
+##  Step-by-Step Traffic Flow from Laptop to Pod
+
+---
+
+###  **1. User’s Browser → DNS Resolution Begins**
+
+* The user opens a browser and types `mymovieapp.com`
+* The browser first checks the **local DNS cache**
+* If not found, it sends a DNS query to the **ISP’s resolver**
+* The resolver recursively reaches out to:
+
+  * **Root DNS → `.com` TLD DNS → Route 53 (Authoritative)**
+
+---
+
+###  **2. Route 53 Resolves Domain to ALB**
+
+* In **Route 53**, you’ve configured an **A or CNAME record**:
+
+  * `mymovieapp.com` → **Alias or CNAME → ALB DNS**
+
+    * e.g., `a1234abcd.elb.us-east-1.amazonaws.com`
+* Route 53 replies with the **ALB’s DNS name / IP address**.
+
+---
+
+###  **3. Browser Sends HTTPS Request to ALB (ELBv2)**
+
+* The browser initiates a **TLS handshake** (if HTTPS) with the ALB
+* ALB serves the **SSL certificate** you’ve attached via Ingress annotation
+* Browser trusts the certificate → connection is established
+* Browser sends HTTP request to `https://mymovieapp.com`
+
+---
+
+###  **4. ALB Listeners & Rules Take Over**
+
+* ALB has **Listeners** (port 443 / 80) and **Rules**:
+
+  * Host-based: `mymovieapp.com` → Target Group A
+  * Path-based: `/admin` → Target Group B, etc.
+* Based on these rules, ALB forwards the request to a **Target Group**
+
+---
+
+###  **5. Target Group Routes to Kubernetes (via Ingress Controller)**
+
+Depending on **target type**:
+
+#### If `target-type: instance`:
+
+* ALB sends traffic to **Node’s IP\:NodePort**
+* K8s service routes request to appropriate **Pod**
+
+#### If `target-type: ip` (recommended):
+
+* ALB directly sends traffic to **Pod IPs** (via Service)
+
+---
+
+###  **6. Pod Receives the Request & Responds**
+
+* Pod is running inside EKS (in private subnets)
+* It processes the request (e.g., return movie listings)
+* Sends response back via same path:
+
+  * **Pod → ALB → User’s Browser**
+
+---
+
+##  Full Traffic Diagram (in words)
+
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/94d19c3a-dbe7-4344-bf45-668f7f2579ae" />
+
+
+```text
+User Laptop (Browser)
+    |
+    └──> DNS Query: mymovieapp.com
+            |
+            └──> Route 53 (Authoritative DNS)
+                     |
+                     └──> ALIAS → ALB DNS
+                              |
+                              ▼
+                      [AWS ALB (ELBv2)]
+                              |
+                       ┌─────────────┐
+                       │ HTTPS Listener│
+                       └─────────────┘
+                              |
+                     Match Host: mymovieapp.com
+                     Match Path: /
+                              ▼
+                    Target Group: EKS Service
+                              |
+                     ┌────────────┐
+                     │  Ingress   │
+                     │ Controller │
+                     └────────────┘
+                              |
+                      Routes to Service
+                              ▼
+                           Pod (in private subnet)
+                              |
+                          Responds
+                              ▼
+                         ALB → Browser
+```
+
+---
+
+##  Key AWS Components Involved
+
+| Component              | Role                                                    |
+| ---------------------- | ------------------------------------------------------- |
+| Route 53               | DNS resolution (mymovieapp.com → ALB)                   |
+| ALB (ELBv2)            | Terminates TLS, applies host/path rules, routes traffic |
+| ALB Ingress Controller | Watches Ingress objects, manages ALB+Target Groups      |
+| EKS                    | Hosts the application Pods in private subnets           |
+| Kubernetes Service     | Routes to Pod(s)                                        |
+
+---
+
+##  Summary (What Makes This Architecture Powerful)
+
+* **Zero manual provisioning**: ALB + Target Groups are created by **Ingress Controller**
+* **One ALB can serve multiple apps** (via host/path rules)
+* **Pod IP mode** avoids NodePort complexity
+* **Route 53 + HTTPS + TLS termination** all native and secure
+* **Scalable + observable + production-grade** using ALB logs, CloudWatch, WAF, etc.
+
+---
+
