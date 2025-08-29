@@ -88,7 +88,7 @@ Ingress Controller (NGINX / ALB / Traefik)
 
 ---
 
- **Summary line for class:**
+ **Summary :**
 “Ingress is like the main gate of your colony . Instead of building 10 separate gates for every house (service), you build one main gate (Load Balancer + Ingress Controller), and security guard (Ingress Controller) guides each visitor to the correct house (service).”
 
 ---
