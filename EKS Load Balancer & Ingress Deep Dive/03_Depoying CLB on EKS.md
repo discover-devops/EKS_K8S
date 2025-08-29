@@ -3,7 +3,8 @@
 
 #  Lesson 3: Deploying a Classic Load Balancer (CLB) on EKS Using Kubernetes Service
 
-<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/49858184-378c-4342-b131-a436d492de6c" />
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/24cd0391-fdac-431c-832d-412f31df1ed5" />
+
 
 ---
 
