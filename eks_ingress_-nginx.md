@@ -54,10 +54,10 @@ Everything goes through **one** LoadBalancer → multiple microservices.
 
 # ##  3. Prerequisites
 
-✔ EKS cluster running
-✔ `kubectl` configured
-✔ `helm` installed
-✔ Internet access for pulling images
+EKS cluster running
+ `kubectl` configured
+ `helm` installed
+ Internet access for pulling images
 
 Check nodes:
 
