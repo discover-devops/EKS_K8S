@@ -30,7 +30,7 @@ You can think of it as:
   * Filtering & aggregations
   * Time-series data (logs, metrics, traces)
 
-### 1.1 Key Concepts (Explain to Students)
+### 1.1 Key Concepts 
 
 * **Cluster** – group of one or more Elasticsearch nodes
 * **Node** – a single Elasticsearch instance (a pod in Kubernetes)
