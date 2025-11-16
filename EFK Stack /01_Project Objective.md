@@ -6,6 +6,11 @@
 
 **Build an end-to-end logging pipeline on AWS EKS where a sample microservice runs on the cluster, its logs are collected by Fluent Bit/Fluentd, stored in Elasticsearch, and visualized in Kibana — all deployed using Helm.**
 
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/f5ab4f6a-d959-4fc8-97f1-52bce450c777" />
+
+
+
 ---
 
 ## 2. Why This Project Matters
