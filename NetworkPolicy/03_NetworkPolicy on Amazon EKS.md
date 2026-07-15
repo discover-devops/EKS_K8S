@@ -181,11 +181,13 @@ kubectl wait --for=condition=Available deployment/frontend deployment/api deploy
 
 ## Step 4: Prove the problem — before any policy exists
 
+> 📝 **Note on connectivity testing throughout this lab:** neither `nginx:1.21` nor `node:18-alpine` ship `nc`, `wget`, or `curl` by default. We'll use bash/sh's built-in `/dev/tcp` feature instead — it requires no extra tools and works identically for testing whether a TCP port is reachable.
+
 ```bash
 kubectl exec -it deployment/frontend -n production -- bash -c "timeout 5 bash -c 'echo > /dev/tcp/database-service/5432' && echo CONNECTED || echo FAILED"
 ```
 
-**This will succeed right now** — frontend can talk directly to the database. This is the exact problem NetworkPolicy exists to fix. Keep this in mind for comparison after Step 6.
+**This will print `CONNECTED` right now** — frontend can talk directly to the database. This is the exact problem NetworkPolicy exists to fix. Keep this in mind for comparison after Step 6.
 
 ---
 
@@ -213,10 +215,10 @@ kubectl apply -f default-deny.yaml
 ### Confirm total lockdown:
 
 ```bash
-kubectl exec -it deployment/frontend -n production -- wget -qO- --timeout=5 http://api-service:3000
+kubectl exec -it deployment/frontend -n production -- bash -c "timeout 5 bash -c 'echo > /dev/tcp/api-service/3000' && echo CONNECTED || echo FAILED"
 ```
 
-Should now **fail** — even the legitimate frontend→API path is blocked, because we haven't explicitly allowed anything yet.
+Should now print **`FAILED`** — even the legitimate frontend→API path is blocked, because we haven't explicitly allowed anything yet. This proves default-deny really does deny everything, with zero exceptions, until we add them.
 
 ---
 
@@ -347,27 +349,27 @@ kubectl apply -f frontend-policy.yaml -f api-policy.yaml -f database-policy.yaml
 
 **✅ Frontend → API (should WORK):**
 ```bash
-kubectl exec -it deployment/frontend -n production -- wget -qO- --timeout=5 http://api-service:3000
+kubectl exec -it deployment/frontend -n production -- bash -c "timeout 5 bash -c 'echo > /dev/tcp/api-service/3000' && echo CONNECTED || echo FAILED"
 ```
-Expected: `API OK`
+Expected: `CONNECTED`
 
 **❌ Frontend → Database directly (should FAIL — this is the whole point):**
 ```bash
-kubectl exec -it deployment/frontend -n production -- nc -zv -w 5 database-service 5432
+kubectl exec -it deployment/frontend -n production -- bash -c "timeout 5 bash -c 'echo > /dev/tcp/database-service/5432' && echo CONNECTED || echo FAILED"
 ```
-Expected: timeout/refused. Compare this to Step 4, where the exact same command succeeded.
+Expected: `FAILED`. Compare this to Step 4, where the exact same command printed `CONNECTED`.
 
 **✅ API → Database (should WORK):**
 ```bash
-kubectl exec -it deployment/api -n production -- nc -zv -w 5 database-service 5432
+kubectl exec -it deployment/api -n production -- sh -c "timeout 5 sh -c 'echo > /dev/tcp/database-service/5432' && echo CONNECTED || echo FAILED"
 ```
-Expected: success.
+Expected: `CONNECTED`. (Note: API container is Alpine-based, so we use `sh` instead of `bash` — Alpine's BusyBox shell supports the same `/dev/tcp` trick.)
 
 **✅ DNS still works:**
 ```bash
-kubectl exec -it deployment/frontend -n production -- nslookup api-service
+kubectl exec -it deployment/frontend -n production -- bash -c "getent hosts api-service"
 ```
-Expected: resolves successfully.
+Expected: prints an IP address. (`nslookup` isn't present in the nginx image either — `getent hosts` uses the same underlying resolver and is available in virtually every Linux base image.)
 
 ---
 
