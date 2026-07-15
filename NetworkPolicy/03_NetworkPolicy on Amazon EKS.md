@@ -182,7 +182,7 @@ kubectl wait --for=condition=Available deployment/frontend deployment/api deploy
 ## Step 4: Prove the problem — before any policy exists
 
 ```bash
-kubectl exec -it deployment/frontend -n production -- nc -zv -w 5 database-service 5432
+kubectl exec -it deployment/frontend -n production -- bash -c "timeout 5 bash -c 'echo > /dev/tcp/database-service/5432' && echo CONNECTED || echo FAILED"
 ```
 
 **This will succeed right now** — frontend can talk directly to the database. This is the exact problem NetworkPolicy exists to fix. Keep this in mind for comparison after Step 6.
