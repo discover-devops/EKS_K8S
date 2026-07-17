@@ -1,6 +1,7 @@
 # Chapter 1: The Growing API Company — Why Services Aren't Enough
 
 **Series:** Kubernetes Traffic Management: From Services to Ingress
+
 **Format:** Concept + context (no hands-on in this chapter — the lab starts once we introduce the Ingress Controller)
 
 ---
