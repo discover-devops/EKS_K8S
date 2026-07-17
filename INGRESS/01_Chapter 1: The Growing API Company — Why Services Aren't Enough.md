@@ -28,7 +28,11 @@ Common answers people land on: cost, IP management, SSL certificate sprawl. All 
 
 ## The cost problem, quantified
 
-On AWS, each `LoadBalancer` Service provisions a real Elastic Load Balancer, costing roughly **$16–20/month**. With 4 services, that's **~$80/month** just for load balancers, before you've served a single byte of actual traffic. Now imagine a company with 20 externally-facing services — that's **$320–400/month** in load balancer costs alone, scaling linearly with every new service you ship.
+On AWS, each `LoadBalancer` Service provisions a real Elastic Load Balancer, costing roughly **$16–20/month**. 
+
+With 4 services, that's **~$80/month** just for load balancers, before you've served a single byte of actual traffic. 
+
+Now imagine a company with 20 externally-facing services — that's **$320–400/month** in load balancer costs alone, scaling linearly with every new service you ship.
 
 But cost isn't the deepest issue here. There's a structural problem underneath it — let's find it.
 
